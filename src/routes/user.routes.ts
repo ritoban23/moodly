@@ -1,9 +1,9 @@
-import express from 'express';
+import express,{Request, Response} from 'express';
 import { User } from '../models/user';
 
-const app = express.Router();
+const router = express.Router();
 
-app.post('/user',async (req,res) => {
+router.post('/user',async (req: Request,res: Response) => {
     const {name,email} = req.body;
     try{
         const user = new User({ name, email });
@@ -14,12 +14,12 @@ app.post('/user',async (req,res) => {
     }
 });
 
-app.get('/users', async (req,res) => {
+router.get('/users', async (req: Request,res: Response) => {
     const users = await User.find();
     res.status(200).send(users);
 });
 
-export default app;
+export default router;
 
 
 
