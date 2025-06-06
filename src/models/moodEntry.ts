@@ -8,7 +8,7 @@ export interface IMoodEntry {
 }
 
 const MoodEntrySchema = new Schema<IMoodEntry>({
-    userId: {type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: {type: Schema.Types.ObjectId, ref: 'User', required: true },//using ref is how MongoDB/Mongoose implements relationships/foreign keys
     mood: { type: Number, required: true, min: 1, max: 5 },
     note: { type: String },
     date: { type: Date, required: true }
