@@ -1,9 +1,17 @@
 import express,{Request, Response} from 'express';
 import { User } from '../models/user';
+import { z } from 'zod';
+import { CreateUserRequestBody } from '../types/requestTypes'
 
 const router = express.Router();
 
-router.post('/user',async (req: Request,res: Response) => {
+// Zod schema
+const createUserSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+});
+
+router.post('/user',async (req: Request<{},{},CreateUserRequestBody>,res: Response) => {
     const {name,email} = req.body;
     try{
         const user = new User({ name, email });

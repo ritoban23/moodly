@@ -1,9 +1,18 @@
 import express,{ Request, Response } from 'express';
-import { MoodEntry } from '../models/moodentry';
+import { MoodEntry } from '../models/moodEntry';
+import {z} from 'zod';
+import {LogMoodRequestBody} from '../types/requestTypes';
 
 const router = express.Router();
 
-router.post('/mood', async (req: Request,res: Response) => {
+//zod schema
+const logMoodSchema = z.object({
+  userId: z.string(),
+  mood: z.number().min(1).max(5),
+  note: z.string().optional(),
+});
+
+router.post('/mood', async (req: Request<{},{},LogMoodRequestBody>,res: Response) => {
     const {userId, mood, note} = req.body;
     const today = new Date(); //because ofc we are not going to take the date from the user
     today.setHours(0, 0, 0, 0);//We normalize today to midnight (i.e., same day always means same date object regardless of time).
@@ -20,7 +29,7 @@ router.post('/mood', async (req: Request,res: Response) => {
     }
 });
 
-router.get('/mood/:userId', async (req: Request,res: Response) => {
+router.get('/mood/:userId', async (req: Request<{},{},LogMoodRequestBody>,res: Response) => {
     try{
         const entries = await MoodEntry.find({ userId: req.params.userId }).sort({ date: 1 });
         res.status(200).send(entries);
