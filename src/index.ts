@@ -8,18 +8,13 @@ const port: number = 3000;
 
 app.use(express.json());
 
+// API health check
+app.get('/', (_req: Request, res: Response) => {
+  res.send({ message: 'Mood Tracker API is running!' });
+});
+
 app.use(userRoutes);
 app.use(moodRoutes);
-
-// Endpoint to create a user
-app.post('/user', async (req: Request, res: Response) => {
- 
-});
-
-// Endpoint to fetch all users
-app.get('/users', async (req: Request, res: Response) => {
-
-});
 
 // Start the server
 app.listen(port, () => {
