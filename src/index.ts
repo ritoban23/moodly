@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
-import './db';
-import userRoutes from './routes/user.routes';
+import { connectDB } from './db';
+import userRoutes from './routes/user.routes';//it is not defined as userRoutes but whatever gets exported get imported as userRoutes here
 import moodRoutes from './routes/mood.routes';
 
 const app: Express = express();
